@@ -20,6 +20,9 @@
             _positionsList = InitializePositionsList(); 
         }
 
+        public int GetRowSize() => _gridSizeY;
+        public int GetColSize() => _gridSizeY;
+
         private (int x, int y)[] InitializePositionsList()
         {
             _positionsList = new (int x, int y)[_gridSizeX * _gridSizeY];
@@ -45,12 +48,13 @@
             {
                 for (int x = 0; x < _cells.GetLength(1); x++)
                 {
-                    _cells[y, x] = new Cell(x, y);
+                    _cells[y, x] = new Cell(x, y, this);
                 }
 
             }
 
             PlaceBombs(rng);
+            GetCellAt(4, 3).Reveal();
         }
         private void PlaceBombs(Random rng)
         {
@@ -75,8 +79,13 @@
                 for (int x = 0; x < _cells.GetLength(1); x++)
                 {
                     Cell cell = GetCellAt(x, y);
-                    if (cell.IsBomb()) Console.Write("# ");
-                    else Console.Write(cell.GetBombNeighbours() + " ");
+                    if (cell.IsRevealed())
+                    {
+                        if (cell.IsBomb()) Console.Write("* ");
+                        else Console.Write(cell.GetBombNeighbours() + " ");
+                        continue;
+                    }
+                    Console.Write("# ");
                 }
 
                 Console.WriteLine();
