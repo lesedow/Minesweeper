@@ -21,7 +21,7 @@
         }
 
         public int GetRowSize() => _gridSizeY;
-        public int GetColSize() => _gridSizeY;
+        public int GetColSize() => _gridSizeX;
 
         private (int x, int y)[] InitializePositionsList()
         {
@@ -54,7 +54,7 @@
             }
 
             PlaceBombs(rng);
-            GetCellAt(4, 3).Reveal();
+            GetCellAt(_gridSizeX / 2, _gridSizeY / 2).Reveal();
         }
         private void PlaceBombs(Random rng)
         {
