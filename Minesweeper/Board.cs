@@ -2,7 +2,7 @@
 {
     internal class Board
     {
-        private (bool isBomb, bool isRevealed)[,] _cells;
+        private Cell[,] _cells;
         private (int x, int y)[] _positionsList;
         
         private int _numberOfBombs;
@@ -10,13 +10,14 @@
 
         public Board(int gridSizeX, int gridSizeY, int numberOfBombs)
         {
-            _cells = new (bool isBomb, bool isRevealed)[gridSizeY, gridSizeX];
+            _cells = new Cell[gridSizeY, gridSizeX];
            _numberOfBombs = numberOfBombs;
 
             _gridSizeX = gridSizeX;
             _gridSizeY = gridSizeY;
 
-            _positionsList = InitializePositionsList(); // Store each cells position in another array for shuffling
+            // Store each cells position in another array for shuffling
+            _positionsList = InitializePositionsList(); 
         }
 
         private (int x, int y)[] InitializePositionsList()
@@ -35,17 +36,23 @@
             return _positionsList;
         }
 
-        private void SetBomb((int x, int y) position)
-        {
-            _cells[position.y, position.x].isBomb = true;
-        }
-
-        private void RevealCell((int x, int y) position)
-        {
-            _cells[position.y, position.x].isRevealed = true;
-        }
+        public Cell[,] GetGrid() => _cells;
+        public Cell GetCellAt(int x, int y) => _cells[y, x];
 
         public void InitBoard(Random rng)
+        {
+            for (int y = 0; y < _cells.GetLength(0); y++)
+            {
+                for (int x = 0; x < _cells.GetLength(1); x++)
+                {
+                    _cells[y, x] = new Cell(x, y);
+                }
+
+            }
+
+            PlaceBombs(rng);
+        }
+        private void PlaceBombs(Random rng)
         {
             // An implementation of the Fisher-Yates algorithm
             for (int currentPos = 0; currentPos < _numberOfBombs; currentPos++)
@@ -55,22 +62,24 @@
                 _positionsList[currentPos] = _positionsList[randomPos];
                 _positionsList[randomPos] = temp;
 
-                SetBomb(_positionsList[currentPos]);
+                GetCellAt(_positionsList[currentPos].x, _positionsList[currentPos].y)
+                    .SetToBomb(this);
 
             }
         }   
 
-        public void ShowBombsPositions()
+        public void DisplayBoard()
         {
             for (int y = 0; y < _cells.GetLength(0); y++)
             {
                 for (int x = 0; x < _cells.GetLength(1); x++)
                 {
-                    if (!_cells[y, x].isBomb) Console.Write("- ");
-                    else Console.Write("# ");
+                    Cell cell = GetCellAt(x, y);
+                    if (cell.IsBomb()) Console.Write("# ");
+                    else Console.Write(cell.GetBombNeighbours() + " ");
                 }
-                Console.WriteLine();
 
+                Console.WriteLine();
             }
         }
     }
