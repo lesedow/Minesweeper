@@ -17,7 +17,7 @@
         public void GameRun()
         {
             _minesweeperBoard.InitBoard(_rng);
-            _minesweeperBoard.ShowBombsPositions();
+            _minesweeperBoard.DisplayBoard();
         }
     }
 
