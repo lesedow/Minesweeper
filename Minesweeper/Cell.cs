@@ -6,8 +6,8 @@
         public int x { get; private set; }
         public int y { get; private set; }
         public int BombNeighbours { get; private set; } = 0;
-        private bool Revealed { get; set; } = false;
-        private bool Bomb { get; set; } = false;
+        public bool Revealed { get; set; } = false;
+        public bool Bomb { get; set; } = false;
 
         public Cell(int x, int y, Board boardRef)
         {
