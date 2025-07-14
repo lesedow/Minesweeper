@@ -19,9 +19,9 @@
         private void ForEachNeighbour(Action<int, int> doAction)
         {
             int minX = Math.Max(0, x - 1);
-            int maxX = Math.Min(_boardRef.GetColSize() - 1, x + 1);
+            int maxX = Math.Min(_boardRef.GridSizeX - 1, x + 1);
             int minY = Math.Max(0, y - 1);
-            int maxY = Math.Min(_boardRef.GetRowSize() - 1, y + 1);
+            int maxY = Math.Min(_boardRef.GridSizeY - 1, y + 1);
 
             for (int cellY = minY; cellY <= maxY; cellY++)
             {
