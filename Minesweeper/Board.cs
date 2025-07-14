@@ -3,43 +3,40 @@
     internal class Board
     {
         private Cell[,] _cells;
+
         private (int x, int y)[] _positionsList;
-        
         private int _numberOfBombs;
-        private int _gridSizeX, _gridSizeY;
+
+        public int GridSizeX { get; private set; }
+        public int GridSizeY { get; private set; }
 
         public Board(int gridSizeX, int gridSizeY, int numberOfBombs)
         {
             _cells = new Cell[gridSizeY, gridSizeX];
            _numberOfBombs = numberOfBombs;
 
-            _gridSizeX = gridSizeX;
-            _gridSizeY = gridSizeY;
+            GridSizeX = gridSizeX;
+            GridSizeY = gridSizeY;
 
             // Store each cells position in another array for shuffling
             _positionsList = InitializePositionsList(); 
         }
 
-        public int GetRowSize() => _gridSizeY;
-        public int GetColSize() => _gridSizeX;
-
         private (int x, int y)[] InitializePositionsList()
         {
-            _positionsList = new (int x, int y)[_gridSizeX * _gridSizeY];
+            _positionsList = new (int x, int y)[GridSizeX * GridSizeY];
 
             for (int y = 0; y < _cells.GetLength(0); y++)
             {
                 for (int x = 0; x < _cells.GetLength(1); x++)
                 {
-                    _positionsList[y * _gridSizeX + x] = (x, y);
+                    _positionsList[y * GridSizeX + x] = (x, y);
                 }
 
             }
 
             return _positionsList;
         }
-
-        public Cell[,] GetGrid() => _cells;
         public Cell GetCellAt(int x, int y) => _cells[y, x];
 
         public void InitBoard(Random rng)
@@ -54,7 +51,7 @@
             }
 
             PlaceBombs(rng);
-            GetCellAt(_gridSizeX / 2, _gridSizeY / 2).Reveal();
+            GetCellAt(GridSizeX / 2, GridSizeY / 2).Reveal();
         }
         private void PlaceBombs(Random rng)
         {
@@ -69,7 +66,6 @@
                 Cell cellAtPos = GetCellAt(_positionsList[currentPos].x, _positionsList[currentPos].y);
                 cellAtPos.Bomb = true;
                 cellAtPos.CountBombNeighbours();
-
             }
         }   
 
