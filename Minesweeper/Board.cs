@@ -9,6 +9,7 @@
 
         public int GridSizeX { get; private set; }
         public int GridSizeY { get; private set; }
+        public Cell GetCellAt(int x, int y) => _cells[y, x];
 
         public Board(int gridSizeX, int gridSizeY, int numberOfBombs)
         {
@@ -37,7 +38,6 @@
 
             return _positionsList;
         }
-        public Cell GetCellAt(int x, int y) => _cells[y, x];
 
         public void InitBoard(Random rng)
         {
