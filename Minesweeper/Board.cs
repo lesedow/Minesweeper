@@ -66,8 +66,9 @@
                 _positionsList[currentPos] = _positionsList[randomPos];
                 _positionsList[randomPos] = temp;
 
-                GetCellAt(_positionsList[currentPos].x, _positionsList[currentPos].y)
-                    .SetToBomb(this);
+                Cell cellAtPos = GetCellAt(_positionsList[currentPos].x, _positionsList[currentPos].y);
+                cellAtPos.Bomb = true;
+                cellAtPos.CountBombNeighbours();
 
             }
         }   
@@ -78,11 +79,11 @@
             {
                 for (int x = 0; x < _cells.GetLength(1); x++)
                 {
-                    Cell cell = GetCellAt(x, y);
-                    if (cell.IsRevealed())
+                    Cell cellAtPos = GetCellAt(x, y);
+                    if (cellAtPos.Revealed)
                     {
-                        if (cell.IsBomb()) Console.Write("* ");
-                        else Console.Write(cell.GetBombNeighbours() + " ");
+                        if (cellAtPos.Bomb) Console.Write("* ");
+                        else Console.Write(cellAtPos.BombNeighbours + " ");
                         continue;
                     }
                     Console.Write("# ");
