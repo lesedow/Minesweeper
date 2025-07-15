@@ -51,7 +51,6 @@
             }
 
             PlaceBombs(rng);
-            GetCellAt(GridSizeX / 2, GridSizeY / 2).Reveal();
         }
         private void PlaceBombs(Random rng)
         {
